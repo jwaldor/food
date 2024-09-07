@@ -1,71 +1,77 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useContext } from 'react';
+import { AccessContext } from './helpers/StateProvider';
+import MenuSection from './components/MenuSection';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { restaurantState, setRestaurantState } = useContext(AccessContext);
+  const [name, setName] = useState(restaurantState.restaurantName);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const newSection = () => {
+    setRestaurantState(prevState => ({
+      ...prevState,
+      menuSections: [
+        ...prevState.menuSections,
+        {
+          title: `New Section ${prevState.menuSections.length + 1}`,
+          description: "Description for the new section",
+          items: [
+            {
+              title: "New Item",
+              description: "Description for the new item",
+              price: 0.00
+            }
+          ]
+        }
+      ]
+    }));
+  };
 
   return (
     <div className="flex flex-col p-4 space-y-4">
+      <div className="flex items-center">
+        {isEditing ? (
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="text-2xl font-bold bg-transparent border-none focus:outline-none mr-2"
+            onBlur={() => setIsEditing(false)}
+            autoFocus
+          />
+        ) : (
+          <div className="text-2xl font-bold mr-2">{name}</div>
+        )}
+        <button onClick={handleEditClick} className="btn btn-sm btn-ghost">
+          {isEditing ? 'Save' : 'Edit'}
+        </button>
+      </div>
+      
       {/* Tabs */}
-      <div className="tabs w-full overflow-x-auto">
-        <a className="tab tab-bordered">Tab 1</a>
-        <a className="tab tab-bordered">Tab 2</a>
-        <a className="tab tab-bordered">Tab 3</a>
-        <a className="tab tab-bordered">Tab 4</a>
-        <a className="tab tab-bordered">Tab 5</a>
-        <a className="tab tab-bordered">Tab 6</a>
-        <a className="tab tab-bordered">Tab 7</a>
-        <a className="tab tab-bordered">Tab 8</a>
-        <a className="tab tab-bordered">Tab 9</a>
-        <a className="tab tab-bordered">Tab 10</a>
+      <div className="tabs w-full overflow-x-auto flex">
+        {restaurantState.menuSections.map((section, index) => (
+          <a key={index} className="tab tab-bordered whitespace-nowrap">{section.title}</a>
+        ))}
       </div>
 
       {/* Search Bar */}
       <input type="text" placeholder="Search..." className="input input-bordered w-full" />
 
       {/* Content Section */}
-      <div className="space-y-2">
-        <h1 className="text-2xl font-bold">Title</h1>
-        <p className="text-gray-500">Small grey text underneath the title</p>
-        <div className="flex flex-col gap-4 mt-4">
-          <div className="flex gap-4">
-            <div className="card w-1/2 h-36rem bg-base-100 border border-gray-300 border-opacity-75 rounded-lg p-0">
-              <div className="card-body flex flex-row">
-                <div className="w-4/5 flex-grow flex-col">
-                  <h2 className="card-title">Div 1</h2>
-                  <p>Content for Div 1</p>
-                </div>
-                <div className="w-1/5 h-full flex flex-col">
-                  <img src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg" className="w-full h-full object-cover" />
-                </div>
-              </div>
-            </div>
-            <div className="card w-1/2 h-36rem bg-base-100 shadow-xl">
-              <div className="card-body">
-                <h2 className="card-title">Div 2</h2>
-                <p>Content for Div 2</p>
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <div className="card w-1/2 h-36rem bg-base-100 shadow-xl">
-              <div className="card-body">
-                <h2 className="card-title">Div 3</h2>
-                <p>Content for Div 3</p>
-              </div>
-            </div>
-            <div className="card w-1/2 h-36rem bg-base-100 shadow-xl">
-              <div className="card-body">
-                <h2 className="card-title">Div 4</h2>
-                <p>Content for Div 4</p>
-              </div>
-            </div>
-          </div>
-        </div>
+      {restaurantState.menuSections.map((_, index) => (
+        <MenuSection key={index} sectionIndex={index} />
+      ))}
+
+      {/* New Section Button */}
+      <div className="flex justify-center mt-4">
+        <button className="btn btn-primary" onClick={newSection}>New section</button>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
