@@ -12,3 +12,48 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Vendor {
+  id               Int               @id @default(autoincrement())
+  name             String
+  customerSessions CustomerSession[]
+}
+
+model CustomerSession {
+  id       Int     @id @default(autoincrement())
+  vendorId Int
+  vendor   Vendor  @relation(fields: [vendorId], references: [id])
+  orders   Order[]
+}
+
+model MenuCategory {
+  id        Int        @id @default(autoincrement())
+  name      String
+  menuItems MenuItem[]
+}
+
+model MenuItem {
+  id            Int          @id @default(autoincrement())
+  name          String
+  price         Decimal
+  categoryId    Int
+  category      MenuCategory @relation(fields: [categoryId], references: [id])
+  orderItems    OrderItem[]
+}
+
+model Order {
+  id               Int             @id @default(autoincrement())
+  customerSessionId Int
+  customerSession  CustomerSession @relation(fields: [customerSessionId], references: [id])
+  orderItems       OrderItem[]
+}
+
+model OrderItem {
+  id         Int      @id @default(autoincrement())
+  orderId    Int
+  order      Order    @relation(fields: [orderId], references: [id])
+  menuItemId Int
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  quantity   Int
+}
+
