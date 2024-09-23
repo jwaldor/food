@@ -18,10 +18,9 @@ function Welcome() {
             The easy way to build your online menu
           </p>
         </div>
-        <button className="flex justify-center items-center mt-5">
-          <div className="bg-blue-600 text-white rounded-full w-fit p-5 font-bold">Create menu</div>
-        </button>
-      <div></div>
+        <div className="flex justify-center items-center mt-5">
+          <button className="bg-blue-600 text-white rounded-full w-fit p-5 font-bold">Create menu</button>
+        </div>
     </div>
   )
 }
