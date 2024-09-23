@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // import AppetizerModal from './AppetizerModal';
-import { AccessContext } from '../helpers/StateProvider';
+import { AccessContext, RestaurantState } from '../helpers/StateProvider';
 import { useContext } from 'react';
 import ReactDOM from 'react-dom';
 interface AppetizerCardProps {
@@ -18,7 +18,7 @@ interface AppetizerCardProps {
     setRestaurantState: React.Dispatch<React.SetStateAction<any>>; // Replace 'any' with the actual type of restaurantState
   }
 
-  const AppetizerModal: React.FC<AppetizerModalProps> = ({ title, description, price, imageUrl, onClose, itemIndex, sectionIndex, restaurantState, setRestaurantState }) => {
+  const AppetizerModal: React.FC<AppetizerModalProps> = ({ onClose, itemIndex, sectionIndex, restaurantState, setRestaurantState }) => {
     // const [title, setTitle] = useState(title);
 
     // const [price, setPrice] = useState(price);
@@ -35,7 +35,7 @@ interface AppetizerCardProps {
     };
   
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setRestaurantState((prevState) => {
+      setRestaurantState((prevState: RestaurantState) => {
         const updatedSections = [...prevState.menuSections];
         updatedSections[sectionIndex].items[itemIndex] = {
           ...updatedSections[sectionIndex].items[itemIndex],
@@ -46,7 +46,7 @@ interface AppetizerCardProps {
     };
 
     const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setRestaurantState((prevState) => {
+      setRestaurantState((prevState: RestaurantState) => {
         const updatedSections = [...prevState.menuSections];
         updatedSections[sectionIndex].items[itemIndex] = {
           ...updatedSections[sectionIndex].items[itemIndex],
@@ -57,7 +57,7 @@ interface AppetizerCardProps {
     };
 
     const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setRestaurantState((prevState) => {
+      setRestaurantState((prevState: RestaurantState) => {
         const updatedSections = [...prevState.menuSections];
         updatedSections[sectionIndex].items[itemIndex] = {
           ...updatedSections[sectionIndex].items[itemIndex],
@@ -158,7 +158,7 @@ const AppetizerCard = ({ title, description, price, imageUrl, itemIndex, section
 
   return (
     <>
-      <button className="flex w-full sm:w-1/2 h-36 bg-base-100 border border-gray-300 border-opacity-75 rounded-lg overflow-hidden" onClick={showModal}>
+      <button className="flex w-full h-36 bg-base-100 border border-gray-300 border-opacity-75 rounded-lg overflow-hidden" onClick={showModal}>
         <div className="flex flex-col w-[65%] p-4 justify-between text-left h-full">
           <div>
             <h2 className="text-sm font-semibold">{title}</h2>

@@ -1,6 +1,8 @@
 import { useState, useContext } from 'react';
 import { AccessContext } from './helpers/StateProvider';
 import MenuSection from './components/MenuSection';
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
+import handPaintedWatercolorGalaxyBackground from './assets/hand-painted-watercolor-galaxy-background_52683-63441.jpg.avif'
 
 function App() {
   const { restaurantState, setRestaurantState } = useContext(AccessContext);
@@ -33,6 +35,14 @@ function App() {
 
   return (
     <div className="flex flex-col p-4 space-y-4">
+      <header>
+      {/* <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn> */}
+    </header>
       <div className="flex items-center">
         {isEditing ? (
           <input

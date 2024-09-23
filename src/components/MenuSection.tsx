@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import AppetizerCard from './AppetizerCard';
 import { AccessContext } from '../helpers/StateProvider';
-import MenuItem from './MenuItem';
 
 type MenuSectionProps = {
   sectionIndex: number;
@@ -90,28 +89,18 @@ const MenuSection: React.FC<MenuSectionProps> = ({ sectionIndex }) => {
         )}
       </div>
 
-      <div className="flex flex-col gap-4 mt-4">
-        {restaurantState.menuSections[sectionIndex].items.reduce((acc, item, index, array) => {
-          if (index % 2 === 0) {
-            acc.push(array.slice(index, index + 2));
-          }
-          return acc;
-        }, []).map((pair, pairIndex) => (
-          <div key={pairIndex} className="flex flex-col sm:flex-row gap-4">
-            {pair.map((item, itemIndex) => (
-              <AppetizerCard
-                key={itemIndex}
-                itemIndex={itemIndex}
-                sectionIndex={sectionIndex}
-                title={item.title}
-                description={item.description}
-                price={item.price}
-                imageUrl={"https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"}
-              />
-            ))}
-          </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {restaurantState.menuSections[sectionIndex].items.map((item, itemIndex) => (
+          <AppetizerCard
+            key={itemIndex}
+            itemIndex={itemIndex}
+            sectionIndex={sectionIndex}
+            title={item.title}
+            description={item.description}
+            price={item.price}  
+            imageUrl={"https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"}
+          />
         ))}
-        {/* Remove the hardcoded AppetizerCard components */}
       </div>
       <div className="flex justify-start mt-4">
         <button onClick={addItem} className="btn btn-secondary">Add item</button>
