@@ -108,6 +108,7 @@ export const StateProvider: FC<Props> = ({ children }) => {
         ...prevState.menuSections,
         {
           title: `New Section ${prevState.menuSections.length + 1}`,
+          description: "New section description", // Add a description
           items: []
         }
       ]

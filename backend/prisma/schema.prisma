@@ -17,6 +17,7 @@ model Vendor {
   id               Int               @id @default(autoincrement())
   name             String
   customerSessions CustomerSession[]
+  menus            Menu[]            // New field to establish relationship with Menu
 }
 
 model CustomerSession {
@@ -26,10 +27,20 @@ model CustomerSession {
   orders   Order[]
 }
 
+model Menu {
+  id             Int            @id @default(autoincrement())
+  name           String
+  vendorId       Int
+  vendor         Vendor         @relation(fields: [vendorId], references: [id])
+  menuCategories MenuCategory[]
+}
+
 model MenuCategory {
   id        Int        @id @default(autoincrement())
   name      String
   menuItems MenuItem[]
+  menuId    Int
+  menu      Menu       @relation(fields: [menuId], references: [id])
 }
 
 model MenuItem {
