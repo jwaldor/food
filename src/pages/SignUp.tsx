@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-
-const SignIn = () => {
+import { VendorService } from '../services/vendor';
+const SignUp = () => {
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -11,8 +11,11 @@ const SignIn = () => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     console.log('Form Submitted:', form);
+    const token = await VendorService.signUp(form.email, form.password);
+    document.cookie = `token=${token}`;
   };
 
   return (
@@ -51,4 +54,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;
