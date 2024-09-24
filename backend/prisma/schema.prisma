@@ -15,7 +15,8 @@ datasource db {
 
 model Vendor {
   id               Int               @id @default(autoincrement())
-  name             String
+  email            String            @unique
+  password         String
   customerSessions CustomerSession[]
   menus            Menu[]            // New field to establish relationship with Menu
 }
